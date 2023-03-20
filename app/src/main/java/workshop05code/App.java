@@ -11,6 +11,9 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+import javax.print.attribute.standard.Severity;
+import javax.swing.LookAndFeel;
+
 /**
  *
  * @author sqlitetutorial.net
@@ -72,23 +75,26 @@ public class App {
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.print("Enter a 4 letter word for a guess or q to quit: ");
             String guess = scanner.nextLine();
+            // (for testing) throw new NoSuchElementException("test");
 
             while (!guess.equals("q")) {
                 System.out.println("You've guessed '" + guess + "'.");
 
                 if (!(guess.matches("^[a-z]{4}$"))) {
+                    logger.log(Level.SEVERE, guess);
                     System.out.println("Please enter only 4 letter lowercase words");
                 } else if (wordleDatabaseConnection.isValidWord(guess)) {
+                    logger.log(Level.INFO, guess);
                     System.out.println("Success! It is in the the list.\n");
                 } else {
+                    logger.log(Level.SEVERE, guess);
                     System.out.println("Sorry. This word is NOT in the the list.\n");
                 }
-
                 System.out.print("Enter a 4 letter word for a guess or q to quit: ");
                 guess = scanner.nextLine();
             }
         } catch (NoSuchElementException | IllegalStateException e) {
-            e.printStackTrace();
+            logger.log(Level.WARNING, "An exception has occured.", e);
         }
 
     }
