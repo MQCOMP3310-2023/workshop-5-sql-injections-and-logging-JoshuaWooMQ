@@ -156,6 +156,7 @@ public class SQLiteConnectionManager {
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, guess);
             ResultSet resultRows = stmt.executeQuery();
+
             if (resultRows.next()) {
                 int result = resultRows.getInt("total");
                 return (result >= 1);
